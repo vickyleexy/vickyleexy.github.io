@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://vickyleexy.com/"/>
-  <updated>2017-06-17T04:33:14.663Z</updated>
+  <updated>2017-06-24T17:00:11.782Z</updated>
   <id>http://vickyleexy.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://vickyleexy.com/2017/06/17/decision_tree/"/>
     <id>http://vickyleexy.com/2017/06/17/decision_tree/</id>
     <published>2017-06-17T04:33:33.383Z</published>
-    <updated>2017-06-17T04:33:14.663Z</updated>
+    <updated>2017-06-24T17:00:11.782Z</updated>
     
     <content type="html"><![CDATA[<p>此笔记根据《machine learning in action》和周志华教授的《机器学习》所作。</p>
 <h2 id="决策树的原理"><a href="#决策树的原理" class="headerlink" title="决策树的原理"></a>决策树的原理</h2><h3 id="决策树的构造"><a href="#决策树的构造" class="headerlink" title="决策树的构造"></a><strong>决策树的构造</strong></h3><ul>
@@ -28,6 +28,7 @@
 <li><strong>缺点：</strong>可能会产生过度匹配问题。</li>
 <li><strong>适用数据类型：</strong>数值型和标称型</li>
 </ul>
+<a id="more"></a>
 <p>《machine learning  in action》:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">If so return 类标签；</div><div class="line">Else</div><div class="line">    寻找划分数据集的最好特征</div><div class="line">    划分数据集</div><div class="line">    创建分支节点</div><div class="line">       for每个划分的子集</div><div class="line">          调用函数createBranch并增加返回结果到分支节点中</div><div class="line">    return 分支节点</div></pre></td></tr></table></figure></p>
 <p>上面的伪代码createBranch是一个递归函数，在倒数第二行调用了它自己。<br>《机器学习》：<br><img src="http://img.blog.csdn.net/20170602222239103?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjE1MDM2MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
 <p>###<strong>决策树的一般流程</strong></p>
@@ -98,7 +99,11 @@
     <summary type="html">
     
       &lt;p&gt;此笔记根据《machine learning in action》和周志华教授的《机器学习》所作。&lt;/p&gt;
-&lt;h2 id=&quot;决策树的原理&quot;&gt;&lt;a href=&quot;#决策树的原理&quot; class=&quot;headerlink&quot; title=&quot;决策树的原理&quot;&gt;&lt;/a&gt;决策树的原理&lt;/h2&gt;
+&lt;h2 id=&quot;决策树的原理&quot;&gt;&lt;a href=&quot;#决策树的原理&quot; class=&quot;headerlink&quot; title=&quot;决策树的原理&quot;&gt;&lt;/a&gt;决策树的原理&lt;/h2&gt;&lt;h3 id=&quot;决策树的构造&quot;&gt;&lt;a href=&quot;#决策树的构造&quot; class=&quot;headerlink&quot; title=&quot;决策树的构造&quot;&gt;&lt;/a&gt;&lt;strong&gt;决策树的构造&lt;/strong&gt;&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;优点：&lt;/strong&gt;计算复杂度不高，输出结果易于理解，对中间值的确实不敏感，可以处理不相关特征数据。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;缺点：&lt;/strong&gt;可能会产生过度匹配问题。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;适用数据类型：&lt;/strong&gt;数值型和标称型&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     

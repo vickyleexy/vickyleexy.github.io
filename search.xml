@@ -11,6 +11,7 @@
 <li><strong>缺点：</strong>可能会产生过度匹配问题。</li>
 <li><strong>适用数据类型：</strong>数值型和标称型</li>
 </ul>
+<a id="more"></a>
 <p>《machine learning  in action》:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">If so return 类标签；</div><div class="line">Else</div><div class="line">    寻找划分数据集的最好特征</div><div class="line">    划分数据集</div><div class="line">    创建分支节点</div><div class="line">       for每个划分的子集</div><div class="line">          调用函数createBranch并增加返回结果到分支节点中</div><div class="line">    return 分支节点</div></pre></td></tr></table></figure></p>
 <p>上面的伪代码createBranch是一个递归函数，在倒数第二行调用了它自己。<br>《机器学习》：<br><img src="http://img.blog.csdn.net/20170602222239103?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjE1MDM2MA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
 <p>###<strong>决策树的一般流程</strong></p>
