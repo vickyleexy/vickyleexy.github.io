@@ -2,7 +2,10 @@
 
 menu:
   主页: /
-  随笔: /tags/随笔/
+  所有文章: /所有文章
+  随笔: /essay
+  关于: /about
+  
 
 # SubNav
 subnav:
