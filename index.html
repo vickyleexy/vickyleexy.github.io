@@ -80,7 +80,7 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+					<a class="github" target="_blank" href="https://github.com/vickyleexy" title="github"><i class="icon-github"></i></a>
 		        
 					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 		        
@@ -125,7 +125,7 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+						<a class="github" target="_blank" href="https://github.com/vickyleexy" title="github"><i class="icon-github"></i></a>
 			        
 						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 			        
@@ -162,6 +162,352 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-通过Annovar进行基因注释" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="通过Annovar进行基因注释"><a href="#通过Annovar进行基因注释" class="headerlink" title="通过Annovar进行基因注释"></a>通过Annovar进行基因注释</h1><h2 id="1-Annovar软件的安装"><a href="#1-Annovar软件的安装" class="headerlink" title="1. Annovar软件的安装"></a>1. Annovar软件的安装</h2><h3 id="1-1-下载"><a href="#1-1-下载" class="headerlink" title="1.1 下载"></a>1.1 下载</h3><p>通过学校邮箱注册，免费下载。地址：<a href="http://www.openbioinformatics.org/annovar/annovar_download_form.php" target="_blank" rel="external">http://www.openbioinformatics.org/annovar/annovar_download_form.php</a></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/1.png" alt="1"></p>
+<p>之后在邮箱里会收到下载链接，下载即可。</p>
+<h3 id="1-2-安装"><a href="#1-2-安装" class="headerlink" title="1.2 安装"></a>1.2 安装</h3><p>通过以下命令进行解压即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar xvfz annovar.latest.tar.gz</div></pre></td></tr></table></figure>
+<p>为更加方便使用，将此路径添加到环境变量中，即可直接使用<code>annotate_variation.pl</code></p>
+<p>，来代替<code>perl annotate_variation.pl</code>进行操作。</p>
+<p>环境变量添加如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim ~/.bashrc</div></pre></td></tr></table></figure>
+<p>在文件中添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#annovar</div><div class="line">export PATH=$PATH:/home/vickyleexy/gene/annovar</div></pre></td></tr></table></figure>
+<p>保存退出，运行以下命令使其立即生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source ~/.bashrc</div></pre></td></tr></table></figure>
+<h2 id="2-对人类基因组进行注释"><a href="#2-对人类基因组进行注释" class="headerlink" title="2. 对人类基因组进行注释"></a>2. 对人类基因组进行注释</h2><h3 id="2-1-下载数据库"><a href="#2-1-下载数据库" class="headerlink" title="2.1 下载数据库"></a>2.1 下载数据库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">annotate_variation.pl -buildver hg19 -downdb -webfrom annovar refGene humandb/</div><div class="line">annotate_variation.pl -buildver hg19 -downdb cytoBand humandb/</div><div class="line">annotate_variation.pl -buildver hg19 -downdb -webfrom annovar exac03 humandb/</div><div class="line">annotate_variation.pl -buildver hg19 -downdb -webfrom annovar avsnp147 humandb/</div><div class="line">annotate_variation.pl -buildver hg19 -downdb -webfrom annovar dbnsfp30a humandb/</div></pre></td></tr></table></figure>
+<p>将数据库下载到human文件夹下。</p>
+<h3 id="2-2-注释"><a href="#2-2-注释" class="headerlink" title="2.2 注释"></a>2.2 注释</h3><p>运行<code>table_annovar.pl</code>进行注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">table_annovar.pl example/ex1.avinput humandb/ -buildver hg19 -out myanno -remove -protocol refGene,cytoBand,exac03,avsnp147,dbnsfp30a -operation gx,r,f,f,f -nastring . -csvout -polish -xref example/gene_xref.txt</div></pre></td></tr></table></figure>
+<p>基于区域的基因组注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">annotate_variation.pl -regionanno -build hg19 -out sel -dbtype phastConsElements46way base_alt_sel.4070.avinput /home/vickyleexy/humandb</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/１３.png" alt="１３"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">annotate_variation.pl -regionanno -dbtype gff3 -gff3dbfile GCF_000951615.1_common_carp_genome_genomic.gff base_alt_sel.4070.avinput /home/vickyleexy/common_carpdb/</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/１６.png" alt="１６"></p>
+<h2 id="3-对Annovar中已有的源的物种进行注释"><a href="#3-对Annovar中已有的源的物种进行注释" class="headerlink" title="3. 对Annovar中已有的源的物种进行注释"></a>3. 对Annovar中已有的源的物种进行注释</h2><h3 id="3-1-下载物种基因组注释信息"><a href="#3-1-下载物种基因组注释信息" class="headerlink" title="3.1 下载物种基因组注释信息"></a>3.1 下载物种基因组注释信息</h3><h2 id="4-对Annovar源中未有的物种进行注释"><a href="#4-对Annovar源中未有的物种进行注释" class="headerlink" title="4. 对Annovar源中未有的物种进行注释"></a>4. 对Annovar源中未有的物种进行注释</h2><p>如果Annovar源中没有现成可用的gene definition file，可以从NCBI、UCSC、Ensemble等网站下载基因组数据，并将GFF3 或GTF 文件转换成 gene definition file。</p>
+<p><strong>以common carp基因组信息为例（ps：注释的是top50PI和前1%的fst的位点）：</strong></p>
+<h3 id="4-1-利用下载的-fna和-gff格式的基因组数据"><a href="#4-1-利用下载的-fna和-gff格式的基因组数据" class="headerlink" title="4.1 利用下载的.fna和.gff格式的基因组数据"></a>4.1 利用下载的.fna和.gff格式的基因组数据</h3><h4 id="4-1-1-下载common-carp-基因组和注释信息"><a href="#4-1-1-下载common-carp-基因组和注释信息" class="headerlink" title="4.1.1 下载common carp 基因组和注释信息"></a>4.1.1 下载common carp 基因组和注释信息</h4><p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/2.png" alt="2"></p>
+<h4 id="4-1-2-解压文件"><a href="#4-1-2-解压文件" class="headerlink" title="4.1.2 解压文件"></a>4.1.2 解压文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mkdir common_carpdb                                            #创建新文件夹</div><div class="line">gunzip GCF_000951615.1_common_carp_genome_genomic.fna.gz       #解压</div><div class="line">gunzip GCF_000951615.1_common_carp_genome_genomic.gff.gz       #解压</div></pre></td></tr></table></figure>
+<h4 id="4-1-3-转换格式"><a href="#4-1-3-转换格式" class="headerlink" title="4.1.3 转换格式"></a>4.1.3 转换格式</h4><p>下载<code>gff3ToGenePred</code>或<code>gtfToGenePred</code>工具，链接：<a href="http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/，推荐使用GTF格式，因为有些GFF3格式文件转换可能不正确，但这里没有GTF格式所以用gff格式。" target="_blank" rel="external">http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/，推荐使用GTF格式，因为有些GFF3格式文件转换可能不正确，但这里没有GTF格式所以用gff格式。</a></p>
+<p><code>gff3ToGenePred</code>工具说明：</p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/７.png" alt="７"></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/８.png" alt="８"></p>
+<p>用以下命令进行转换：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/home/vickyleexy/gene/gff3ToGenePred -useName GCF_000951615.1_common_carp_genome_genomic.gff ComCarp_refGene.txt</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/３.png" alt="３"></p>
+<p>生成了<code>ComCarp_refGene.txt</code>文件。</p>
+<p>若不加参数<code>-useName</code>，则最后得到的注释信息显示的是基因编号，而不是基因名称：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./gff3ToGenePred /home/vickyleexy/common_carpdb/GCF_000951615.1_common_carp_genome_genomic.gff /home/vickyleexy/common_carpdb/ComCarp_refGene.txt</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/１５.png" alt="１５"></p>
+<h4 id="4-1-4-用retrieve-seq-from-fasta-pl生成-transcript-FASTA-file"><a href="#4-1-4-用retrieve-seq-from-fasta-pl生成-transcript-FASTA-file" class="headerlink" title="4.1.4 用retrieve_seq_from_fasta.pl生成 transcript FASTA file"></a>4.1.4 用retrieve_seq_from_fasta.pl生成 transcript FASTA file</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">retrieve_seq_from_fasta.pl -format refGene -seqfile GCF_000951615.1_common_carp_genome_genomic.fna ComCarp_refGene.txt -outfile ComCarp_refGeneMrna.fa</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/４.png" alt="４"></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/５.png" alt="５"></p>
+<p>生成了<code>ComCarp_refGeneMrna.fa</code>文件。</p>
+<h4 id="4-1-5-对筛选出来的sel组和con组位点进行注释"><a href="#4-1-5-对筛选出来的sel组和con组位点进行注释" class="headerlink" title="4.1.5 对筛选出来的sel组和con组位点进行注释"></a>4.1.5 对筛选出来的sel组和con组位点进行注释</h4><p><strong>对sel组位点数据文件<code>base_alt_sel.vcf</code>进行注释：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">table_annovar.pl base_alt_sel.vcf /home/vickyleexy/common_carpdb/ --vcfinput --outfile sel --buildver ComCarp --protocol refGene --operation g</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/９.png" alt="９"></p>
+<p>生成以下文件：</p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/１１.png" alt="１１"></p>
+<p><strong>对con组位点数据文件<code>base_alt_con.vcf</code>进行注释：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">table_annovar.pl base_alt_con.vcf /home/vickyleexy/common_carpdb/ --vcfinput --outfile con --buildver ComCarp --protocol refGene --operation g</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/１０.png" alt="１０"></p>
+<p>生成以下文件：</p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/１２.png" alt="１２"></p>
+<h4 id="4-1-6-对前1-的fst中的位点进行注释"><a href="#4-1-6-对前1-的fst中的位点进行注释" class="headerlink" title="4.1.6 对前1%的fst中的位点进行注释"></a>4.1.6 对前1%的fst中的位点进行注释</h4><p>将.vcf格式的文件转换为annovar的输入格式.avinput：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">convert2annovar.pl -format vcf4 base_alt_filter_001.vcf &gt; base_alt_filter_001.vcf.avinput</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/１７.png" alt="１７"></p>
+<p>对上面生成的.avinput文件进行注释：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">annotate_variation.pl -out fst -build ComCarp base_alt_filter_001.vcf.avinput /home/vickyleexy/common_carpdb/</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/１８.png" alt="１８"></p>
+<h3 id="4-2-利用下载的-fa和-gtf格式的基因组数据"><a href="#4-2-利用下载的-fa和-gtf格式的基因组数据" class="headerlink" title="4.2 利用下载的.fa和.gtf格式的基因组数据"></a>4.2 利用下载的.fa和.gtf格式的基因组数据</h3><p><img src="/home/vickyleexy/Desktop/genesoftware/annovar/６.png" alt="６"></p>
+<p>参考文档地址：</p>
+<ol>
+<li><a href="http://doc-openbio.readthedocs.io/projects/annovar/en/latest/" target="_blank" rel="external">http://doc-openbio.readthedocs.io/projects/annovar/en/latest/</a></li>
+<li><a href="http://blog.csdn.net/u013816205/article/details/51262289" target="_blank" rel="external">http://blog.csdn.net/u013816205/article/details/51262289</a></li>
+</ol>
+<p><a href="http://blog.csdn.net/u013816205/article/details/51262289" target="_blank" rel="external">http://blog.csdn.net/u013816205/article/details/51262289</a></p>
+<p><a href="http://www.jianshu.com/p/48b5a0972301" target="_blank" rel="external">http://www.jianshu.com/p/48b5a0972301</a></p>
+<p><a href="http://www.bio-info-trainee.com/641.html" target="_blank" rel="external">http://www.bio-info-trainee.com/641.html</a></p>
+<p><a href="http://www.dxy.cn/bbs/topic/33206128?source=rss" target="_blank" rel="external">http://www.dxy.cn/bbs/topic/33206128?source=rss</a></p>
+<p><a href="http://annovar.openbioinformatics.org/en/latest/user-guide/startup/" target="_blank" rel="external">http://annovar.openbioinformatics.org/en/latest/user-guide/startup/</a></p>
+<p><a href="http://blog.sina.com.cn/s/blog_83f77c940102w9rs.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_83f77c940102w9rs.html</a></p>
+<p><a href="http://www.dxy.cn/bbs/topic/36491526?from=recommend" target="_blank" rel="external">http://www.dxy.cn/bbs/topic/36491526?from=recommend</a></p>
+<p><a href="https://zhengzexin.com/2016/04/28/annovar-zhu-shi-ruan-jian/#toc_10" target="_blank" rel="external">https://zhengzexin.com/2016/04/28/annovar-zhu-shi-ruan-jian/#toc_10</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/28126314" target="_blank" rel="external">https://zhuanlan.zhihu.com/p/28126314</a></p>
+<p><a href="https://www.ncbi.nlm.nih.gov/gquery/?term=common+carp" target="_blank" rel="external">https://www.ncbi.nlm.nih.gov/gquery/?term=common+carp</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/03/通过Annovar进行基因注释/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-搭建网站 ---- Django（1）" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="搭建网站-—-Django（1）"><a href="#搭建网站-—-Django（1）" class="headerlink" title="搭建网站 —- Django（1）"></a>搭建网站 —- Django（1）</h1><p>基于python中的Django框架，进行基本的网站搭建。</p>
+<p>ps：基本的python环境已经搭建完毕，且系统为linux。</p>
+<ol>
+<li><p>安装Django。</p>
+<p>直接用pip命令安装即可：</p>
+<figure class="highlight plain"><figcaption><span>install django``` </span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">   ![1](/home/vickyleexy/Desktop/webpic/1.png)</div><div class="line"></div><div class="line">   可用以下命令查看帮助。`django-admin.py --help`</div><div class="line"></div><div class="line">   ![2](/home/vickyleexy/Desktop/webpic/2.png)</div><div class="line"></div><div class="line"></div><div class="line">2. 创建一个Django项目 </div><div class="line"></div><div class="line">   ```django-admin.py startproject mysite</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/webpic/3.png" alt="3"></p>
+<p>查看创建的目录中的结构：</p>
+<p><img src="/home/vickyleexy/Desktop/webpic/9.png" alt="9"></p>
+<p>其中：</p>
+<ul>
+<li>最外层目录mysite/ 是我们在命令中创建的项目名称，它的名字和django无关，随便起名字都可以。</li>
+<li>manage.py 文件是本项目的管理文件，项目的开启、配置等操作都通过这个文件完成。</li>
+<li>内层的 mysite/ 目录是真正的项目目录，里面含有项目中所需要的各种模块等内容。</li>
+<li>__init__.py 是引用模块时必备的文件，告诉解释器这个目录可以看成一个python程序包。</li>
+<li>mysite/settings.py 是配置文件，负责项目的各种配置。</li>
+<li>mysite/urls.py 是负责处理url相关操作的。</li>
+</ul>
+</li>
+<li><p>运行服务器 <code>python ./manage.py runserver</code></p>
+<p><img src="/home/vickyleexy/Desktop/webpic/4.png" alt="4"></p>
+<p>可以看出缺少点东西，根据提示，运行<code>python manage.py migrate</code></p>
+<p>将manage.py赋予读写权限，以便更加方便调用<code>chmod 755 manage.py</code></p>
+<p><img src="/home/vickyleexy/Desktop/webpic/6.png" alt="6"></p>
+<p><img src="/home/vickyleexy/Desktop/webpic/7.png" alt="7"></p>
+<p>再次运行服务器:</p>
+<p><img src="/home/vickyleexy/Desktop/webpic/8.png" alt="8"></p>
+<p>打开提示中的网址可看到：</p>
+<p><img src="/home/vickyleexy/Desktop/webpic/5.png" alt="5"></p>
+</li>
+</ol>
+<p>搞定～</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/03/搭建网站 ---- Django（1）/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-linux下安装VCFtools" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linux下安装VCFtools-amp-FastQTL"><a href="#linux下安装VCFtools-amp-FastQTL" class="headerlink" title="linux下安装VCFtools &amp; FastQTL"></a>linux下安装VCFtools &amp; FastQTL</h1><h2 id="一-安装VCFtools"><a href="#一-安装VCFtools" class="headerlink" title="一. 安装VCFtools"></a><strong>一. 安装VCFtools</strong></h2><h3 id="1-下载它的最新版本"><a href="#1-下载它的最新版本" class="headerlink" title="1. 下载它的最新版本"></a>1. 下载它的最新版本</h3><p><a href="https://github.com/vcftools/vcftools" target="_blank" rel="external">https://github.com/vcftools/vcftools</a></p>
+<h3 id="2-安装"><a href="#2-安装" class="headerlink" title="2. 安装"></a>2. 安装</h3><p>2.1 解压：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar -xvf vcfools.0.X.XX.tar.gz</div></pre></td></tr></table></figure>
+<p>2.2 安装 tabix package，其实也就是samtools，因为之前已经安装过了，在这里就不重复安装了。</p>
+<p>2.3 将这个模块<code>Vcf.pm module</code>加到环境路径中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">export PERL5LIB=/path/to/your/vcftools-directory/src/perl/</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/vcftools/2.png" alt="2"></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/vcftools/1.png" alt="1"></p>
+<p>2.4 编译安装</p>
+<p>将路径切换到vcftools下，并执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cd vcftools/ </div><div class="line">./autogen.sh </div><div class="line">./configure	</div><div class="line">make </div><div class="line">make install</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/vcftools/3.png" alt="3"></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/vcftools/4.png" alt="4"></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/vcftools/5.png" alt="5"></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/vcftools/6.png" alt="6"></p>
+<h2 id="二-安装FastQTL"><a href="#二-安装FastQTL" class="headerlink" title="二. 安装FastQTL"></a><strong>二. 安装FastQTL</strong></h2><h3 id="1-下载linux版本（此处用的源码版本）"><a href="#1-下载linux版本（此处用的源码版本）" class="headerlink" title="1.下载linux版本（此处用的源码版本）"></a>1.下载linux版本（此处用的源码版本）</h3><p><a href="http://fastqtl.sourceforge.net/" target="_blank" rel="external">http://fastqtl.sourceforge.net/</a></p>
+<p>第一个应该是一个已经编译好的版本，但以防不能用（虽然试了下也确实报错了），那我们在这里就重新编译安装。ps：在下载的压缩包中有个叫 “INSTALL” 的文件中其实有具体的安装过程。</p>
+<h3 id="2-进行安装"><a href="#2-进行安装" class="headerlink" title="2.进行安装"></a>2.进行安装</h3><h4 id="2-1-安装The-standalone-Rmath-library"><a href="#2-1-安装The-standalone-Rmath-library" class="headerlink" title="2.1 安装The standalone Rmath library:"></a>2.1 安装<strong>The standalone Rmath library:</strong></h4><p>其实在deepin中可以通过apt-get安装，但在之后的FastQTL中有一些路径的问题比较麻烦，所以在这里我们用压缩包的方式进行安装。</p>
+<p><strong>2.1.1</strong> 下载压缩包，在这里最新的版本是3.4.1，所以我们下载的是<a href="https://mirrors.tuna.tsinghua.edu.cn/CRAN/src/base/R-3/R-3.4.1.tar.gz" target="_blank" rel="external">R-3.4.1.tar.gz</a></p>
+<p>链接：<a href="https://mirrors.tuna.tsinghua.edu.cn/CRAN/" target="_blank" rel="external">https://mirrors.tuna.tsinghua.edu.cn/CRAN/</a></p>
+<p><strong>2.1.2</strong>  解压压缩包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar xzvf R-3.4.1.tar.gz</div></pre></td></tr></table></figure>
+<p><strong>2.1.3</strong> 进入文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd R-3.4.1</div></pre></td></tr></table></figure>
+<p><strong>2.1.4</strong>  配置编译文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./configure</div></pre></td></tr></table></figure>
+<p><strong>2.1.5</strong>  进入 <code>R math library</code>文件夹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd src/nmath/standalone</div></pre></td></tr></table></figure>
+<p><strong>2.1.6</strong> 编译此文件夹中 的代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make</div></pre></td></tr></table></figure>
+<p><strong>2.1.7</strong> 返回到R-3.4.1文件夹中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd ../..</div></pre></td></tr></table></figure>
+<p><strong>2.1.8</strong> 记住此文件夹的路径，后面的fastqtl中的编译文件中需要修改一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RMATH=$(pwd)</div><div class="line">我的是：RMATH=~/gene/R-3.4.1/src</div></pre></td></tr></table></figure>
+<p><strong>2.1.9</strong> 将Makefile文件中RMATH的路径修改一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#PLEASE SPECIFY THE R path here where you built the R math library standalone </div><div class="line">RMATH=~/gene/R-3.4.1/src         #修改此处</div></pre></td></tr></table></figure>
+<ul>
+<li><p>在deepin中也可以通过apt-get直接安装<strong>The standalone Rmath library</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install r-mathlib</div></pre></td></tr></table></figure>
+<p>但这样有一个问题，要用<code>whereis Rmath</code> 定位一下Rmath，还要用<code>find / -name libRmath.a</code>搜一下libRmath.a 在哪个文件夹下，从而更改Makefile文件中的路径，感觉比较麻烦。</p>
+<p>​</p>
+</li>
+</ul>
+<h4 id="2-2-安装The-Boost-C-libraries"><a href="#2-2-安装The-Boost-C-libraries" class="headerlink" title="2.2 安装The Boost C++ libraries"></a>2.2 安装<strong>The Boost C++ libraries</strong></h4><p>第一种方法：（手工安装）</p>
+<p>(1)下载<a href="http://dl.bintray.com/boostorg/release/1.65.0/source/boost_1_65_0.tar.bz2" target="_blank" rel="external">boost_1_65_0.tar.bz2</a></p>
+<p>链接：<a href="http://www.boost.org/users/download/" target="_blank" rel="external">http://www.boost.org/users/download/</a></p>
+<p>(2) Unzip the package:                </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar xzvf boost165_0.tar.bz2</div></pre></td></tr></table></figure>
+<p>(3) Go in the folder:                </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd boost165_0</div></pre></td></tr></table></figure>
+<p>(4) Install required packages:        </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bootstrap.sh --prefix=/home/olivier/Desktop/myInstall --with-libraries=iostreams,program_options</div></pre></td></tr></table></figure>
+<p>第二种方法：（自动安装，推荐）</p>
+<p>（1）搜索仓库中关于boost的安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-cache search boost</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/fastqtl/5.png" alt="5"></p>
+<p>（2）安装以下，即可安装所有的依赖包和插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install libboost-all-dev</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/fastqtl/7.png" alt="7"></p>
+<p>之前直接安装的<code>libboost-dev</code>，然后开始不知道为啥编译的时候一直出现<code>未定义</code>这个问题，应该是<code>iostreams</code>这个包没有安装的问题，所以还是直接全安装得了……</p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/fastqtl/1.png" alt="1"></p>
+<h4 id="2-3-安装GSL"><a href="#2-3-安装GSL" class="headerlink" title="2.3 安装GSL"></a>2.3 安装<strong>GSL</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install libgsl0-dev</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/fastqtl/6.png" alt="6"></p>
+<h3 id="2-4-安装zlib"><a href="#2-4-安装zlib" class="headerlink" title="2.4 安装zlib"></a>2.4 安装zlib</h3><p>下载：<a href="http://www.zlib.net/zlib-1.2.11.tar.gz" target="_blank" rel="external">US (zlib.net)</a> (<a href="http://www.zlib.net/zlib-1.2.11.tar.gz.asc" target="_blank" rel="external">GPG signature</a>)</p>
+<p>解压缩后进入文件夹，然后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">./configure</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure>
+<p><strong>2.5</strong> <strong>编译 FASTQTL</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd FastQTL</div><div class="line">make cleanall &amp;&amp; make</div><div class="line">./bin/fastQTL.static --help      #验证</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/fastqtl/2.png" alt="2"></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/fastqtl/3.png" alt="3"></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/fastqtl/4.png" alt="4"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/26/linux下安装VCFtools/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-linux下安装R与RStdio" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="linux下安装R与RStudio"><a href="#linux下安装R与RStudio" class="headerlink" title="linux下安装R与RStudio"></a>linux下安装R与RStudio</h1><h2 id="1-安装R"><a href="#1-安装R" class="headerlink" title="1. 安装R"></a>1. 安装R</h2><h4 id="1-1-最简单安装方法，如果不介意版本的话"><a href="#1-1-最简单安装方法，如果不介意版本的话" class="headerlink" title="1.1 最简单安装方法，如果不介意版本的话"></a>1.1 最简单安装方法，如果不介意版本的话</h4><p>在linux下可直接通过命令行安装:(但不一定是最新版)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">- sudo apt-get update</div><div class="line">- sudo apt-get install r-base r-base-dev</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/R/1.png" alt="1"></p>
+<p><strong>check：</strong></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/R/3.png" alt="3"></p>
+<h4 id="1-2-在这里更想更新源，安装最新版本：so以下"><a href="#1-2-在这里更想更新源，安装最新版本：so以下" class="headerlink" title="1.2 在这里更想更新源，安装最新版本：so以下"></a>1.2 在这里更想更新源，安装最新版本：so以下</h4><p>打开安装源列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- sudo gedit /etc/apt/sources.list</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/R/10.png" alt="10"></p>
+<p>将以下安装源添加到打开的安装源列表中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- deb http://mirrors.tuna.tsinghua.edu.cn/CRAN/bin/linux/debian stretch-cran34/</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/R/4.png" alt="4"></p>
+<p>可以从此链接<a href="https://cran.r-project.org/" target="_blank" rel="external">https://cran.r-project.org/</a> 中Supported branches部分，查看更新源的格式等信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">deb http://&lt;favourite-cran-mirror&gt;/bin/linux/debian stretch-cran34/</div></pre></td></tr></table></figure>
+<p>然后终端输入以下命令进行更新：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- sudo apt-get update</div></pre></td></tr></table></figure>
+<p>however……报错如下，没有公钥，无法验证数字签名：</p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/R/5.png" alt="5"></p>
+<p>CRAN中存储的debain包需要通过密钥FCAE2A0E115C3D8A （上面报错中缺少的公钥）进行签名验证，运行以下命令添加密钥到debain系统，在终端输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FCAE2A0E115C3D8A</div></pre></td></tr></table></figure>
+<p>然后再使用<code>sudo apt-get update</code>，进行更新，通过：</p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/R/7.png" alt="7"></p>
+<p>最近进行安装R：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- sudo apt-get install r-base r-base-dev</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/R/8.png" alt="8"></p>
+<p>check一下，可以看出从刚才的版本3.3变成了3.4：</p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/R/9.png" alt="9"></p>
+<p><strong>参考：</strong></p>
+<ol>
+<li><a href="https://mirrors.tuna.tsinghua.edu.cn/CRAN/" target="_blank" rel="external">https://mirrors.tuna.tsinghua.edu.cn/CRAN/</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_ab08623c0101d4uw.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_ab08623c0101d4uw.html</a></li>
+<li><a href="http://jingyan.baidu.com/article/e8cdb32b3526f837052badea.html" target="_blank" rel="external">http://jingyan.baidu.com/article/e8cdb32b3526f837052badea.html</a></li>
+</ol>
+<h2 id="2-安装RStudio"><a href="#2-安装RStudio" class="headerlink" title="2. 安装RStudio"></a>2. 安装RStudio</h2><h4 id="2-1-下载："><a href="#2-1-下载：" class="headerlink" title="2.1 下载："></a>2.1 下载：</h4><p><a href="https://www.rstudio.com/products/rstudio/download/" target="_blank" rel="external">https://www.rstudio.com/products/rstudio/download/</a></p>
+<h4 id="2-2-安装："><a href="#2-2-安装：" class="headerlink" title="2.2 安装："></a>2.2 安装：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- sudo apt-get install gdebi-core</div><div class="line">- sudo apt-get install libapparmor1</div><div class="line">- cd gene                            #放deb安装文件的文件夹</div><div class="line">- sudo gdebi rstudio-xenial-1.0.153-amd64.deb</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/rstdio/1.png" alt="1"></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/rstdio/2.png" alt="2"></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/rstdio/3.png" alt="3"></p>
+<p>经过上面的几条命令，RStudio应该已经安装好了，下面可以访问试一下。</p>
+<p>输入一下命令进行安装测试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- sudo rstudio verify-installation</div></pre></td></tr></table></figure>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/rstdio/4.png" alt="4"></p>
+<p><img src="/home/vickyleexy/Desktop/genesoftware/rstdio/5.png" alt="5"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/26/linux下安装R与RStdio/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
   
     <article id="post-Basics-of-Bioinformatics" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
